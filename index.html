@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weight Loss Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="topbar" aria-label="Overview">
+        <div>
+          <p class="eyebrow">Weight Loss Tracker</p>
+          <h1>Your progress, logged simply.</h1>
+        </div>
+        <div class="unit-toggle" role="group" aria-label="Weight unit">
+          <button class="segmented is-active" type="button" data-unit="kg">kg</button>
+          <button class="segmented" type="button" data-unit="lb">lb</button>
+        </div>
+      </section>
+
+      <section class="dashboard-grid" aria-label="Dashboard stats">
+        <article class="stat-card">
+          <span>Current</span>
+          <strong id="currentWeight">--</strong>
+          <small id="currentDate">No entries yet</small>
+        </article>
+        <article class="stat-card">
+          <span>Change</span>
+          <strong id="totalChange">--</strong>
+          <small>from first log</small>
+        </article>
+        <article class="stat-card">
+          <span>To Goal</span>
+          <strong id="toGoal">--</strong>
+          <small id="goalStatus">Set a goal</small>
+        </article>
+        <article class="stat-card">
+          <span>BMI</span>
+          <strong id="bmiValue">--</strong>
+          <small id="bmiCategory">Add height</small>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <section class="panel tracker-panel">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Progress</p>
+              <h2>Weight Trend</h2>
+            </div>
+            <span id="trendLabel" class="trend-label">Waiting for data</span>
+          </div>
+          <canvas id="weightChart" width="980" height="440" aria-label="Weight trend chart"></canvas>
+        </section>
+
+        <aside class="panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Profile</p>
+              <h2>Goal Setup</h2>
+            </div>
+          </div>
+          <form id="profileForm" class="form-grid">
+            <label>
+              <span>Start weight</span>
+              <input id="startWeight" type="number" min="1" step="0.1" placeholder="82">
+            </label>
+            <label>
+              <span>Goal weight</span>
+              <input id="goalWeight" type="number" min="1" step="0.1" placeholder="70">
+            </label>
+            <label>
+              <span>Height (cm)</span>
+              <input id="heightCm" type="number" min="80" max="260" step="0.1" placeholder="175">
+            </label>
+            <button type="submit" class="primary-action">Save goal</button>
+          </form>
+        </aside>
+      </section>
+
+      <section class="content-grid lower-grid">
+        <section class="panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">Log</p>
+              <h2>Add Entry</h2>
+            </div>
+          </div>
+          <form id="entryForm" class="form-grid">
+            <label>
+              <span>Date</span>
+              <input id="entryDate" type="date" required>
+            </label>
+            <label>
+              <span>Weight</span>
+              <input id="entryWeight" type="number" min="1" step="0.1" placeholder="80.5" required>
+            </label>
+            <label>
+              <span>Note</span>
+              <input id="entryNote" type="text" maxlength="80" placeholder="Morning weigh-in">
+            </label>
+            <button type="submit" class="primary-action">Add entry</button>
+          </form>
+          <div class="data-actions">
+            <button type="button" id="exportBtn" class="ghost-action">Export JSON</button>
+            <label class="ghost-action file-action">
+              Import JSON
+              <input id="importInput" type="file" accept="application/json,.json">
+            </label>
+          </div>
+        </section>
+
+        <section class="panel history-panel">
+          <div class="panel-header compact">
+            <div>
+              <p class="eyebrow">History</p>
+              <h2>Entries</h2>
+            </div>
+            <button id="clearBtn" class="danger-action" type="button">Clear</button>
+          </div>
+          <div id="entryList" class="entry-list" aria-live="polite"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="entryTemplate">
+      <article class="entry-row">
+        <div>
+          <strong class="entry-weight"></strong>
+          <span class="entry-date"></span>
+          <p class="entry-note"></p>
+        </div>
+        <div class="entry-actions">
+          <button type="button" class="icon-button edit-entry" aria-label="Edit entry">Edit</button>
+          <button type="button" class="icon-button delete-entry" aria-label="Delete entry">Delete</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
